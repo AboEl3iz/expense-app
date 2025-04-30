@@ -23,10 +23,10 @@ export class TransactionResolver {
     return this.transactionService.findOne(id);
   }
 
-  @Mutation(() => Transaction)
-  updateTransaction(@Args('updateTransactionInput') updateTransactionInput: UpdateTransactionInput) {
-    return this.transactionService.update(updateTransactionInput.id, updateTransactionInput);
-  }
+  // @Mutation(() => Transaction)
+  // updateTransaction(@Args('updateTransactionInput') updateTransactionInput: UpdateTransactionInput) {
+  //   return this.transactionService.update(updateTransactionInput.id, updateTransactionInput);
+  // }
 
   @Mutation(() => Transaction)
   removeTransaction(@Args('id', { type: () => Int }) id: number) {

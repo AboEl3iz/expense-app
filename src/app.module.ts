@@ -19,7 +19,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true
     }),
     TypeOrmModule.forRoot({
-      logging: ["query", "error"],
+      
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
       port: Number(process.env.POSTGRES_PORT),

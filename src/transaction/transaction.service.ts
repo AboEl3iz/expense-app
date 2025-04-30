@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTransactionInput } from './dto/create-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Transaction } from './entities/transaction.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TransactionService {
+  constructor(@InjectRepository(Transaction) private transactionRepo: Repository<Transaction>) {}
   create(createTransactionInput: CreateTransactionInput) {
     return 'This action adds a new transaction';
   }

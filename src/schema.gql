@@ -4,26 +4,68 @@
 
 type User {
   """Example field (placeholder)"""
-  exampleField: Int!
+  id: Int!
+
+  """Example field (placeholder)"""
+  username: String!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  password: String!
+
+  """Example field (placeholder)"""
+  profilePicture: String
+
+  """Example field (placeholder)"""
+  gender: String!
 }
 
 type Query {
+  users: [User!]!
   user(id: Int!): User!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  register(createUserInput: CreateUserInput!): User!
+  login(logininput: LoginUserInput!): User!
+  updateUser(id: Int!, updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): String!
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Example field (username)"""
+  username: String!
+
+  """Example field (name)"""
+  name: String!
+
+  """Example field (password)"""
+  password: String!
+
+  """Example field (gender)"""
+  gender: String!
+}
+
+input LoginUserInput {
+  """Example field (username)"""
+  username: String!
+
+  """Example field (password)"""
+  password: String!
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """Example field (username)"""
+  username: String
+
+  """Example field (name)"""
+  name: String
+
+  """Example field (password)"""
+  password: String
+
+  """Example field (gender)"""
+  gender: String
 }

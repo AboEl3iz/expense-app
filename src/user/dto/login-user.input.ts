@@ -3,24 +3,15 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Unique } from 'typeorm';
 
 @InputType()
-export class CreateUserInput {
+export class LoginUserInput {
   @IsNotEmpty()
   @IsString()
   @Field(() => String, { description: 'Example field (username)' })
   username: String
-  @IsNotEmpty()
-  @IsString()
-  @Field(() => String, { description: 'Example field (name)'   })
-  name: String
+
   @IsNotEmpty()
   @IsString()
   @Field(() => String, { description: 'Example field (password)' })
   password: String
-  @IsNotEmpty()
-  @IsString()
-  @Field(() => String, { description: 'Example field (gender)' })
-  gender: String
-  @IsString()
-  @IsOptional()
-  profilePicture?: String
+  
 }
