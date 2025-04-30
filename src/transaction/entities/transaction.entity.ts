@@ -27,7 +27,7 @@ export class Transaction {
   date: String
   
   @ManyToOne(() => User, user => user.transactions, {onDelete: 'CASCADE'})
-  @JoinColumn({ name: 'userid' })
+  @JoinColumn({ name: 'userid'  })
   @Field(() => User, { description: 'Example field (placeholder)', nullable: true })
   user: User
 }

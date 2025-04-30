@@ -18,7 +18,7 @@ private userRepo: UserService,
    * @returns The newly created transaction.
    */
   async create(createTransactionInput: CreateTransactionInput): Promise<Transaction> {
-  const user =  await this.userRepo.findOne(createTransactionInput.userid)[0];
+  const user =  await this.userRepo.findOne(createTransactionInput.userid);
   if (!user) {
     throw new Error(`User with ID ${createTransactionInput.userid} not found`);
   }
@@ -42,7 +42,10 @@ private userRepo: UserService,
    * @returns The transaction with the specified ID.
    */
   async findOne(id: number): Promise<Transaction> {
-    const transaction = await this.transactionRepo.findOneBy({ id });
+    const transaction = await this.transactionRepo.findOne({
+      where: { id },
+      relations: ['user'],
+    });
     if (!transaction) {
       throw new Error(`Transaction with ID ${id} not found`);
     }
