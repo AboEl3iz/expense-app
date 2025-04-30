@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 @ObjectType()
 export class Transaction {
@@ -25,4 +26,8 @@ export class Transaction {
   @Field(() => String, { description: 'Example field (placeholder)' })
   date: String
   
+  @ManyToOne(() => User, user => user.transactions, {onDelete: 'CASCADE'})
+  @JoinColumn({ name: 'userid' })
+  @Field(() => User, { description: 'Example field (placeholder)', nullable: true })
+  user: User
 }

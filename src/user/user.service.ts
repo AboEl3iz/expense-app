@@ -50,7 +50,7 @@ export class UserService {
    * @returns The user.
    */
   async findOne(id: number) {
-    const user = await this.userRepo.findOneBy({ id });
+    const user = await this.userRepo.find({ where: { id } ,relations: ['transactions'] });
     if (!user) {
       throw new Error('User not found');
     }
@@ -77,7 +77,7 @@ async  update(id: number, updateUserInput: UpdateUserInput) {
       user.password =  hashPassword;
     }
     
-    return user;
+    return this.userRepo.save(user);
   }
 
   /**

@@ -8,12 +8,12 @@ import { UpdateTransactionInput } from './dto/update-transaction.input';
 export class TransactionResolver {
   constructor(private readonly transactionService: TransactionService) {}
 
-  @Mutation(() => Transaction)
+  @Mutation(() => Transaction , { name: 'createTransaction' })
   createTransaction(@Args('createTransactionInput') createTransactionInput: CreateTransactionInput) {
     return this.transactionService.create(createTransactionInput);
   }
 
-  @Query(() => [Transaction], { name: 'transaction' })
+  @Query(() => [Transaction], { name: 'transactions' })
   findAll() {
     return this.transactionService.findAll();
   }
@@ -23,12 +23,12 @@ export class TransactionResolver {
     return this.transactionService.findOne(id);
   }
 
-  // @Mutation(() => Transaction)
-  // updateTransaction(@Args('updateTransactionInput') updateTransactionInput: UpdateTransactionInput) {
-  //   return this.transactionService.update(updateTransactionInput.id, updateTransactionInput);
-  // }
-
   @Mutation(() => Transaction)
+  updateTransaction(@Args('id', { type: () => Int }) id: number,@Args('updateTransactionInput') updateTransactionInput: UpdateTransactionInput) {
+    return this.transactionService.update(id, updateTransactionInput);
+  }
+
+  @Mutation(() => String , { name: 'removeTransaction' })
   removeTransaction(@Args('id', { type: () => Int }) id: number) {
     return this.transactionService.remove(id);
   }

@@ -2,6 +2,32 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Transaction {
+  """Example field (placeholder)"""
+  id: Int!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  paymentType: String!
+
+  """Example field (placeholder)"""
+  category: String!
+
+  """Example field (placeholder)"""
+  amount: Int!
+
+  """Example field (placeholder)"""
+  location: String!
+
+  """Example field (placeholder)"""
+  date: String!
+
+  """Example field (placeholder)"""
+  user: User
+}
+
 type User {
   """Example field (placeholder)"""
   id: Int!
@@ -20,11 +46,16 @@ type User {
 
   """Example field (placeholder)"""
   gender: String!
+
+  """Example field (placeholder)"""
+  transactions: [Transaction!]
 }
 
 type Query {
   users: [User!]!
   user(id: Int!): User!
+  transactions: [Transaction!]!
+  transaction(id: Int!): Transaction!
 }
 
 type Mutation {
@@ -32,6 +63,9 @@ type Mutation {
   login(logininput: LoginUserInput!): User!
   updateUser(id: Int!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): String!
+  createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
+  updateTransaction(id: Int!, updateTransactionInput: UpdateTransactionInput!): Transaction!
+  removeTransaction(id: Int!): String!
 }
 
 input CreateUserInput {
@@ -68,4 +102,50 @@ input UpdateUserInput {
 
   """Example field (gender)"""
   gender: String
+}
+
+input CreateTransactionInput {
+  """Example field (description)"""
+  description: String!
+
+  """Example field (paymentType)"""
+  paymentType: String!
+
+  """Example field (category)"""
+  category: String!
+
+  """Example field (amount)"""
+  amount: Int!
+
+  """Example field (location)"""
+  location: String!
+
+  """Example field (data)"""
+  date: String!
+
+  """Example field (amount)"""
+  userid: Int!
+}
+
+input UpdateTransactionInput {
+  """Example field (description)"""
+  description: String
+
+  """Example field (paymentType)"""
+  paymentType: String
+
+  """Example field (category)"""
+  category: String
+
+  """Example field (amount)"""
+  amount: Int
+
+  """Example field (location)"""
+  location: String
+
+  """Example field (data)"""
+  date: String
+
+  """Example field (amount)"""
+  userid: Int
 }

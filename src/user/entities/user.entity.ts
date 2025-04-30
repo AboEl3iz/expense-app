@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Transaction } from 'src/transaction/entities/transaction.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 @ObjectType()
 export class User {
@@ -21,6 +22,7 @@ export class User {
   @Column({type: 'enum', enum: ['male', 'female']})
   @Field(() => String, { description: 'Example field (placeholder)' })
   gender: String
-
-  
+  @OneToMany(() => Transaction, transaction => transaction.user , {eager: true})
+  @Field(() => [Transaction], { description: 'Example field (placeholder)' , nullable: true })
+  transactions: Transaction[]
 }
