@@ -28,6 +28,4 @@ export class CreateTransactionInput {
    @Field(() => String, { description: 'Example field (data)' })
    date: String
    
-   @Field(() => Int, { description: 'Example field (amount)' })
-   userid :number
 }

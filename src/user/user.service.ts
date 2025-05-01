@@ -54,7 +54,7 @@ export class UserService {
     if (!user) {
       throw new Error('User not found');
     }
-    console.log(user);
+   
     return user[0];
 
 
@@ -107,23 +107,7 @@ async  update(id: number, updateUserInput: UpdateUserInput) {
     return "User deleted successfully";
   }
 
-  /**
-   * Logs a user in.
-   * @param loginInput - The user's login details.
-   * @returns The user.
-   */
-  async login(loginInput: LoginUserInput) {
-    const user = await this.userRepo.findOneBy({ username: loginInput.username });
-    if (!user) {
-      throw new Error('User not found');
-    }
-    const isMatch = await bcrypt.compare(loginInput.password, user.password);
-    if (!isMatch) {
-      throw new Error('Invalid credentials');
-    }
-    
-    return user;
-  }
+  
   private async hashPassword(password: String): Promise<String> {
     let salt = 10;
     return bcrypt.hash(password, salt);

@@ -125,9 +125,6 @@ input CreateTransactionInput {
 
   """Example field (data)"""
   date: String!
-
-  """Example field (amount)"""
-  userid: Int!
 }
 
 input UpdateTransactionInput {
@@ -148,9 +145,6 @@ input UpdateTransactionInput {
 
   """Example field (data)"""
   date: String
-
-  """Example field (amount)"""
-  userid: Int
 }
 
 input LoginUserInput {

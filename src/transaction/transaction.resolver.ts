@@ -32,7 +32,8 @@ export class TransactionResolver {
   }
   @Auth()
   @Mutation(() => String , { name: 'removeTransaction' })
-  removeTransaction(@CurrentUser() user: User,@Args('id', { type: () => Int }) id: number) {
+  removeTransaction(@Args('id', { type: () => Int }) id: number,@CurrentUser() user: User) {
+    console.log(id);
     return this.transactionService.remove(user.id,id);
   }
 }

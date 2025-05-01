@@ -21,7 +21,7 @@ private userRepo: UserService,
   async create(userid: number,createTransactionInput: CreateTransactionInput): Promise<Transaction> {
   const user =  await this.userRepo.findOne(userid);
   if (!user) {
-    throw new Error(`User with ID ${createTransactionInput.userid} not found`);
+    throw new Error(`User with ID ${userid} not found`);
   }
     const newTransaction = this.transactionRepo.create({...createTransactionInput , user: user});
     return await this.transactionRepo.save(newTransaction);
@@ -92,7 +92,7 @@ private userRepo: UserService,
    * @returns A success message.
    */
   async remove(userid: number,id: number): Promise<string> {
-    const transaction = await this.transactionRepo.findOneBy({ id });
+    const transaction = await this.transactionRepo.findOne({ where: { id }, relations: ['user'] });
     if (!transaction) {
       throw new Error(`Transaction with ID ${id} not found`);
     }
