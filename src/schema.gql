@@ -51,21 +51,32 @@ type User {
   transactions: [Transaction!]
 }
 
+type LoginResponse {
+  user: User!
+  message: String!
+}
+
+type LogoutResponse {
+  message: String!
+}
+
 type Query {
   users: [User!]!
-  user(id: Int!): User!
+  user: User!
   transactions: [Transaction!]!
   transaction(id: Int!): Transaction!
 }
 
 type Mutation {
   register(createUserInput: CreateUserInput!): User!
-  login(logininput: LoginUserInput!): User!
-  updateUser(id: Int!, updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): String!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser: String!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
   updateTransaction(id: Int!, updateTransactionInput: UpdateTransactionInput!): Transaction!
   removeTransaction(id: Int!): String!
+  login(loginUserInput: LoginUserInput!): LoginResponse!
+  logout: LogoutResponse!
+  getProfile: User!
 }
 
 input CreateUserInput {
@@ -80,14 +91,6 @@ input CreateUserInput {
 
   """Example field (gender)"""
   gender: String!
-}
-
-input LoginUserInput {
-  """Example field (username)"""
-  username: String!
-
-  """Example field (password)"""
-  password: String!
 }
 
 input UpdateUserInput {
@@ -148,4 +151,12 @@ input UpdateTransactionInput {
 
   """Example field (amount)"""
   userid: Int
+}
+
+input LoginUserInput {
+  """Example field (username)"""
+  username: String!
+
+  """Example field (password)"""
+  password: String!
 }

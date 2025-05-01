@@ -8,10 +8,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [UserModule, 
     TransactionModule,
+    AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
@@ -31,6 +33,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
       entities: ['dist/**/*.entity{.js,.ts}']
     }),
+    AuthModule,
     ],
   controllers: [AppController],
   providers: [AppService],

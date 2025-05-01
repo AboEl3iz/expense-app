@@ -4,6 +4,8 @@ import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { LoginUserInput } from './dto/login-user.input';
+import { Auth } from 'src/auth/decorators/auth/auth.decorator';
+import { CurrentUser } from 'src/auth/decorators/current-user/current-user.decorator';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -13,28 +15,25 @@ export class UserResolver {
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);
   }
-  @Mutation(() => User , { name: 'login' })
-  login(@Args('logininput') loginInput: LoginUserInput) {
-    return this.userService.login(loginInput);
-  }
+
 
   @Query(() => [User], { name: 'users' })
   findAll() {
     return this.userService.findAll();
   }
-
+  @Auth()
   @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id );
+  findOne(@CurrentUser() user: User,) {
+    return this.userService.findOne(user.id );
   }
-
+  @Auth()
   @Mutation(() => User)
-  updateUser(@Args('id', { type: () => Int }) id: number,@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(id,updateUserInput);
+  updateUser(@CurrentUser() user: User ,@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    return this.userService.update(user.id,updateUserInput);
   }
-
+  @Auth()
   @Mutation(() => String , { name: 'removeUser' })
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id);
+  removeUser(@CurrentUser() user: User) {
+    return this.userService.remove(user.id);
   }
 }

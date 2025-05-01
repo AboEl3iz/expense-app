@@ -61,6 +61,22 @@ export class UserService {
   }
 
   /**
+   * Finds a user by username.
+   * @param username - The user's username.
+   * @returns The user.
+   */
+  async findByUsername(username: String) {
+    const user = await this.userRepo.findOne({ where: { username } ,relations: ['transactions'] });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    console.log(user);
+    return user;
+
+
+  }
+
+  /**
    * Updates a user.
    * @param id - The user's ID.
    * @param updateUserInput - The user's new details.

@@ -15,10 +15,11 @@ private userRepo: UserService,
   /**
    * Creates a new transaction.
    * @param createTransactionInput - The details of the transaction to create.
+   * @param userid - The ID of the user associated with the transaction.
    * @returns The newly created transaction.
    */
-  async create(createTransactionInput: CreateTransactionInput): Promise<Transaction> {
-  const user =  await this.userRepo.findOne(createTransactionInput.userid);
+  async create(userid: number,createTransactionInput: CreateTransactionInput): Promise<Transaction> {
+  const user =  await this.userRepo.findOne(userid);
   if (!user) {
     throw new Error(`User with ID ${createTransactionInput.userid} not found`);
   }
@@ -39,15 +40,19 @@ private userRepo: UserService,
   /**
    * Retrieves a transaction by its ID.
    * @param id - The ID of the transaction to retrieve.
+   * @param userid - The ID of the user associated with the transaction.
    * @returns The transaction with the specified ID.
    */
-  async findOne(id: number): Promise<Transaction> {
+  async findOne(userid: number, id: number): Promise<Transaction> {
     const transaction = await this.transactionRepo.findOne({
       where: { id },
       relations: ['user'],
     });
     if (!transaction) {
       throw new Error(`Transaction with ID ${id} not found`);
+    }
+    if (transaction.user.id !== userid) {
+      throw new Error(`Transaction with ID ${id} does not belong to user with ID ${userid}`);
     }
     return transaction;
   }
@@ -58,29 +63,42 @@ private userRepo: UserService,
    * @param updateTransactionInput - The new details of the transaction.
    * @returns The updated transaction.
    */
-  async update(id: number, updateTransactionInput: UpdateTransactionInput): Promise<Transaction> {
-    
-    const updatedTransaction = await this.transactionRepo.findOneBy({ id });
-    if (!updatedTransaction) {
+  async update(userid: number, id: number, updateTransactionInput: UpdateTransactionInput): Promise<Transaction> {
+    const transaction = await this.transactionRepo.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+    if (!transaction) {
       throw new Error(`Transaction with ID ${id} not found`);
     }
-    updatedTransaction.description = updateTransactionInput.description || updatedTransaction.description;
-    updatedTransaction.paymentType = updateTransactionInput.paymentType || updatedTransaction.paymentType;
-    updatedTransaction.category = updateTransactionInput.category || updatedTransaction.category;
-    updatedTransaction.amount = updateTransactionInput.amount || updatedTransaction.amount;
-    updatedTransaction.location = updateTransactionInput.location || updatedTransaction.location;
-    updatedTransaction.date = updateTransactionInput.date || updatedTransaction.date;
+    if (transaction.user.id !== userid) {
+      throw new Error(`Transaction with ID ${id} does not belong to user with ID ${userid}`);
+    }
 
-    
-    return  this.transactionRepo.save(updatedTransaction);
+    transaction.description = updateTransactionInput.description || transaction.description;
+    transaction.paymentType = updateTransactionInput.paymentType || transaction.paymentType;
+    transaction.category = updateTransactionInput.category || transaction.category;
+    transaction.amount = updateTransactionInput.amount || transaction.amount;
+    transaction.location = updateTransactionInput.location || transaction.location;
+    transaction.date = updateTransactionInput.date || transaction.date;
+
+    return this.transactionRepo.save(transaction);
   }
 
   /**
    * Removes a transaction.
    * @param id - The ID of the transaction to remove.
+   * @param userid - The ID of the user associated with the transaction.
    * @returns A success message.
    */
-  async remove(id: number): Promise<string> {
+  async remove(userid: number,id: number): Promise<string> {
+    const transaction = await this.transactionRepo.findOneBy({ id });
+    if (!transaction) {
+      throw new Error(`Transaction with ID ${id} not found`);
+    }
+    if (transaction.user.id !== userid) {
+      throw new Error(`Transaction with ID ${id} does not belong to user with ID ${userid}`);
+    }
     const result = await this.transactionRepo.delete(id);
     if (result.affected === 0) {
       throw new Error(`Transaction with ID ${id} not found`);
